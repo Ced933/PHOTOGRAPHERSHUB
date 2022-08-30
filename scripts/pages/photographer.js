@@ -71,7 +71,7 @@ const fetchPhotographer = async () => {
 
                             // const divH4 = document.querySelector("#heart-container");
                             let h4 = document.createElement('h4');
-                            // rajouter les coeurs 
+                            // rajoutez les coeurs 
                             h4.innerHTML += media.likes;
                             h4.className = "singleLike";
 
@@ -152,21 +152,22 @@ const fetchPhotographer = async () => {
 
 
 
-
+                            let leftArrow = document.querySelector('.left-arrow');
+                            let rightArrow = document.querySelector('.right-arrow');
                             let close = document.querySelector('.close');
                             let bodyGallery = document.querySelector('.body-gallery');
 
 
 
-                            // faire apparaître et disparaitre la pop up gallery 
+                            // faire apparaitre et disparaitre la pop up gallery 
                             img.onclick = function () {
                                 if (bodyGallery.style.display === "none") {
                                     bodyGallery.style.display = "block";
-                                    // pour faire apparaître la photo sur laquelle on a cliqué 
+                                    // pour faire apparaitre la photo sur laquelle on a cliqué 
                                     let imageAlone = document.querySelector("#img-alone");
                                     let path = `./assets/SamplePhotos/${element.name}/${media.image}`;
 
-                                    // creer un tableau 
+                                    // creé un tableau 
                                     imageAlone.setAttribute('src', path);
                                     console.log(path);
                                     let middle = document.querySelector('.middle');
@@ -188,13 +189,10 @@ const fetchPhotographer = async () => {
 
                             }
 
-                            // let tab = ["Travel _Adventure_Door.jpg", "Architecture_Dome.jpg", "Travel_OpenMountain.jpg", "Travel_Tower.jpg"];
 
 
-                            // pour ne pas avoir à taper à la main tous les titres il faut faire ça 
-                            // transformer mon objet en tableau grace a map
-
-
+                            // Attrapper toutes les images dans le Dom 
+                            let imageAll = document.querySelectorAll('.img-gallery');
 
 
 
@@ -209,24 +207,39 @@ const fetchPhotographer = async () => {
 
 
 
+                            var i = 0;
+
+                            leftArrow.onclick = function () {
+                                if (i <= 0) i = imageAll.length;
+                                i--
+
+                                return setImg();
+
+                            };
+
+                            rightArrow.onclick = function () {
+
+                                if (i >= imageAll.length - 1) i = -1;
+                                i++
+                                return setImg();
+
+                            };
 
 
-                            // const arr = data.media.map(photographes => {
-                            //     return {
 
-                            //         element.filter(photo => photo.photographerId === photographes.id)
-                            //     }
-                            // });
-                            // console.log(arr);
-
-
+                            function setImg() {
+                                let image = document.querySelector('#img-alone');
+                                // faire defiller les images  
+                                let path = `${imageAll[i].getAttribute('src')}`;
+                                image.setAttribute("src", path);
+                            }
 
 
 
 
 
 
-                            // let arr = ["Sport_2000_with_8.jpg", "Fashion_Wings.jpg", "Fashion_Melody_Red_on_Stripes.jpg", "Event_VentureConference.jpg", "Event_ProductPitch.jpg", "Event_KeyboardCheck.jpg", "Event_Emcee.jpg", "Animals_Majesty.jpg",]
+
 
 
 
@@ -333,84 +346,3 @@ const fetchPhotographer = async () => {
 }
 
 fetchPhotographer();
-
-
-
-
-async function main() {
-
-    const data = fetch(`data/photographers.json`)
-        .then((res) => res.json())
-        .then((data) => {
-            const photos = data.media;
-
-            const photographes = data.photographers;
-
-
-
-            const arr = photographes.map(photographe => {
-                return (
-                    photos.filter(photo => photographe.id === photo.photographerId)
-                )
-
-
-
-
-
-
-
-
-
-
-
-
-            });
-
-
-
-            let leftArrow = document.querySelector('.left-arrow');
-            let rightArrow = document.querySelector('.right-arrow');
-
-            var i = 0;
-
-            leftArrow.onclick = function () {
-                if (i <= 0) i = arr.length;
-                i--
-
-                return setImg();
-
-            };
-
-            rightArrow.onclick = function () {
-
-                if (i >= arr.length - 1) i = -1;
-                i++
-                return setImg();
-
-            };
-
-
-
-            function setImg() {
-                let image = document.querySelector('#img-alone');
-                let path = `./assets/SamplePhotos/${photographes[i].name}/${arr[i].photos}`;
-                image.setAttribute("src", path);
-                console.log(arr[i]);
-            }
-
-
-
-
-        });
-
-
-
-
-
-
-
-
-
-}
-
-main();
