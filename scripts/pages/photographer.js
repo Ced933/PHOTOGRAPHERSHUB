@@ -65,7 +65,10 @@ const fetchPhotographer = async () => {
                         if (media.photographerId == idPhotographer) {
                             const figure = document.createElement('figure');
                             const figcation = document.createElement('figcaption');
+
                             const h3 = document.createElement('h3');
+                            // pour pouvoir attraper uniquement les h3 de tous les figure et non pas les h3 de toute la page 
+                            h3.setAttribute('class', 'h3-figcaption');
 
                             h3.innerHTML += media.title;
 
@@ -194,19 +197,6 @@ const fetchPhotographer = async () => {
                             // Attrapper toutes les images dans le Dom 
                             let imageAll = document.querySelectorAll('.img-gallery');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                             var i = 0;
 
                             leftArrow.onclick = function () {
@@ -225,7 +215,23 @@ const fetchPhotographer = async () => {
 
                             };
 
+                            window.addEventListener('keydown', (event) => {
+                                if (event.key == 'ArrowRight') {
+                                    if (i >= imageAll.length - 1) i = -8;
+                                    i++
+                                    return setImg();
 
+                                }
+                            })
+                            window.addEventListener('keydown', (event) => {
+                                if (event.key == 'ArrowLeft') {
+                                    if (i <= 0) i = imageAll.length;
+                                    i--
+
+                                    return setImg();
+
+                                }
+                            })
 
                             function setImg() {
                                 let image = document.querySelector('#img-alone');
@@ -237,13 +243,20 @@ const fetchPhotographer = async () => {
 
 
 
+                            // selectList.onchange = function(){
+
+                            // }
 
 
 
 
 
 
+                            let array = data.media;
+                            console.log(array);
 
+                            let date = media.date;
+                            console.log(date);
 
 
 
@@ -328,21 +341,31 @@ const fetchPhotographer = async () => {
                 }
 
             });
-            // if (media == idPhotographer) {
-            //     const h3Div = document.querySelector(".div-h3");
-            //     const h3 = document.createElement('h3');
 
-            //     h3.innerHTML += data.media[0].title;
-
-
-            //     let path = `./assets/SamplePhotos/${data.media[0]}`;
-            //  img.setAttribute("src", path);
-            //     h3Div.appendChild(h3);
-            // }
-            // mixer les deux pour pouvvoir avoir acces au deux tableau 
 
         });
 
 }
 
 fetchPhotographer();
+
+const trier = async () => {
+    await fetch(`data/photographers.json`)
+        .then((res) => res.json())
+        .then((data) => {
+            //  data.media.map(media => {
+
+            let ArrayObjectMedia = data.media;
+            ArrayObjectMedia.sort(function (a, b) {
+                // a.le nom de le clef b.le nom de le clef
+                if (a.title < b.title)
+                    return -1;
+                return 0;
+
+            });
+            console.log(ArrayObjectMedia);
+
+        })
+    // })
+};
+trier();
