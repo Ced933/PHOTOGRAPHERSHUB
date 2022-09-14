@@ -8,7 +8,7 @@
 
 // console.log(data.photographers[0].name)
 // data.photographers[0]
-
+let media = null;
 
 const idPhotographer = window.location.search.slice(4);
 // console.log(idPhotographer);
@@ -17,6 +17,7 @@ const fetchPhotographer = async () => {
     await fetch(`data/photographers.json`)
         .then((res) => res.json())
         .then((data) => {
+
             data.photographers.forEach(element => {
                 if (element.id == idPhotographer) {
                     const photographersDiv = document.querySelector("#photographer");
@@ -63,6 +64,55 @@ const fetchPhotographer = async () => {
                     data.media.forEach(media => {
 
                         if (media.photographerId == idPhotographer) {
+
+
+
+                            // let sortAlphabetic = async () => {
+
+                            //     // const idPhotographer = window.location.search.slice(4);
+
+                            //     let ArrayObjectMedia = data.media;
+
+
+
+
+                            //     let selectOption = document.querySelector('#select').value;
+                            //     console.log(selectOption);
+                            //     if (selectOption == 'title') {
+                            //         ArrayObjectMedia.sort(function (a, b) {
+                            //             // a.le nom de le clef b.le nom de le clef
+                            //             if (a.title < b.title)
+                            //                 return -1;
+                            //             return 0;
+
+                            //         });
+                            //         console.log(ArrayObjectMedia);
+
+                            //     }
+                            //     if (selectOption == 'date') {
+                            //         ArrayObjectMedia.sort(function (a, b) {
+                            //             // a.le nom de le clef b.le nom de le clef
+                            //             if (a.date < b.date)
+                            //                 return -1;
+                            //             return 0;
+
+                            //         });
+                            //         console.log(ArrayObjectMedia);
+                            //     }
+                            //     if (selectOption == "popular") {
+                            //         ArrayObjectMedia.sort(function (a, b) {
+                            //             // a.le nom de le clef b.le nom de le clef
+                            //             if (a.likes > b.likes)
+                            //                 return -1;
+                            //             return 0;
+
+                            //         });
+                            //         console.log(ArrayObjectMedia);
+                            //     }
+                            // }
+                            // sortAlphabetic();
+
+
                             const figure = document.createElement('figure');
                             const figcation = document.createElement('figcaption');
 
@@ -129,24 +179,27 @@ const fetchPhotographer = async () => {
                             // img.setAttribute("src", path);
                             // img.setAttribute("class", "img-gallery");
                             // container.appendChild(img);
+                            function imageAppear() {
+                                let img = document.createElement('img');
 
-                            let img = document.createElement('img');
+                                if (media.image) {
 
-                            if (media.image) {
+                                    let path = `./assets/SamplePhotos/${element.name}/${media.image}`;
+                                    img.setAttribute("src", path);
+                                    img.setAttribute("class", "img-gallery");
+                                    figure.appendChild(img);
+                                }
+                                else {
+                                    const video = document.createElement("video");
+                                    let pathVideo = `./assets/SamplePhotos/${element.name}/${media.video}`;
+                                    video.setAttribute("src", pathVideo);
+                                    video.setAttribute("class", "video-gallery");
+                                    figure.appendChild(video);
 
-                                let path = `./assets/SamplePhotos/${element.name}/${media.image}`;
-                                img.setAttribute("src", path);
-                                img.setAttribute("class", "img-gallery");
-                                figure.appendChild(img);
+                                }
                             }
-                            else {
-                                const video = document.createElement("video");
-                                let pathVideo = `./assets/SamplePhotos/${element.name}/${media.video}`;
-                                video.setAttribute("src", pathVideo);
-                                video.setAttribute("class", "video-gallery");
-                                figure.appendChild(video);
+                            imageAppear();
 
-                            }
 
 
 
@@ -253,10 +306,10 @@ const fetchPhotographer = async () => {
 
 
                             let array = data.media;
-                            console.log(array);
+                            // console.log(array);
 
                             let date = media.date;
-                            console.log(date);
+                            // console.log(date);
 
 
 
@@ -301,23 +354,6 @@ const fetchPhotographer = async () => {
                             container.appendChild(figure);
 
 
-                            // condition pour afficher image ou video 
-                            // if (media.image) {
-                            //     const img = document.createElement('img');
-                            //     let path = `./assets/SamplePhotos/${element.name}/${media.image}`;
-                            //     img.setAttribute("src", path);
-                            //     img.setAttribute("class", "img-gallery");
-                            //     figure.appendChild(img);
-                            // }
-                            // else {
-                            //     const video = document.createElement("video");
-                            //     let pathVideo = `./assets/SamplePhotos/${element.name}/${media.video}`;
-                            //     video.setAttribute("src", pathVideo);
-
-                            //     figure.appendChild(video);
-
-                            // }
-
                             figure.appendChild(figcation);
 
                             figcation.appendChild(h3);
@@ -349,23 +385,88 @@ const fetchPhotographer = async () => {
 
 fetchPhotographer();
 
-const trier = async () => {
+// var trier = async () => {
+//     await fetch(`data/photographers.json`)
+//         .then((res) => res.json())
+//         .then((data) => {
+//             //  data.media.map(media => {
+
+//             let ArrayObjectMedia = data.media;
+//             ArrayObjectMedia.sort(function (a, b) {
+//                 // a.le nom de le clef b.le nom de le clef
+//                 if (a.title < b.title)
+//                     return -1;
+//                 return 0;
+
+//             });
+//             console.log(ArrayObjectMedia);
+
+//         })
+
+
+// };
+// trier();
+
+let sortAlphabetic = async () => {
     await fetch(`data/photographers.json`)
         .then((res) => res.json())
         .then((data) => {
-            //  data.media.map(media => {
-
+            const idPhotographer = window.location.search.slice(4);
+            let ArrayObjectPhotographer = data.photographers;
             let ArrayObjectMedia = data.media;
-            ArrayObjectMedia.sort(function (a, b) {
-                // a.le nom de le clef b.le nom de le clef
-                if (a.title < b.title)
-                    return -1;
-                return 0;
 
-            });
-            console.log(ArrayObjectMedia);
+            // function imgAppear() {
+            //     let img = document.createElement('img');
+            //     if (ArrayObjectMedia.image) {
+            //         let figure = document.createElement('figure');
+            //         let path = `./assets/SamplePhotos/${ArrayObjectPhotographer.name}/${ArrayObjectMedia.image}`;
+            //         img.setAttribute("src", path);
+            //         img.setAttribute("class", "img-gallery");
+            //         figure.appendChild(img);
+            //     }
+            // }
+            // imgAppear();
 
+            let selectOption = document.querySelector('#select').value;
+            // console.log(selectOption);
+            if (selectOption == 'title') {
+                let img = document.createElement('img');
+                ArrayObjectMedia.sort(function (a, b) {
+                    // a.le nom de le clef b.le nom de le clef
+                    if (a.title < b.title)
+                        return -1;
+                    return 0;
+
+                });
+                console.log(ArrayObjectMedia.filter(
+                    (ArrayObjectMedia) => ArrayObjectMedia.photographerId === parseInt(idPhotographer)
+                ));
+
+            }
+            if (selectOption == 'date') {
+                ArrayObjectMedia.sort(function (a, b) {
+                    // a.le nom de le clef b.le nom de le clef
+                    if (a.date < b.date)
+                        return -1;
+                    return 0;
+
+                });
+                console.log(ArrayObjectMedia.filter(
+                    (ArrayObjectMedia) => ArrayObjectMedia.photographerId === parseInt(idPhotographer)
+                ));
+            }
+            if (selectOption == "popular") {
+                ArrayObjectMedia.sort(function (a, b) {
+                    // a.le nom de le clef b.le nom de le clef
+                    if (a.likes > b.likes)
+                        return -1;
+                    return 0;
+
+                });
+                console.log(ArrayObjectMedia.filter(
+                    (ArrayObjectMedia) => ArrayObjectMedia.photographerId === parseInt(idPhotographer)
+                ));
+            }
         })
-    // })
 };
-trier();
+
